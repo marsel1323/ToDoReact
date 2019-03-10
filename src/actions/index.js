@@ -19,6 +19,33 @@ const signup = (formProps, callback) => async (dispatch) => {
   }
 };
 
+const signin = (formProps, callback) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      'http://localhost:8080/api/login',
+      formProps,
+    );
+
+    const token = response.data;
+
+    dispatch({ type: AUTH_USER, payload: token });
+    window.localStorage.setItem('token', token);
+    callback();
+  } catch (e) {
+    dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials' });
+  }
+};
+
+const signout = () => {
+  window.localStorage.removeItem('token');
+  return {
+    type: AUTH_USER,
+    payload: '',
+  };
+};
+
 export {
   signup,
+  signin,
+  signout,
 };
