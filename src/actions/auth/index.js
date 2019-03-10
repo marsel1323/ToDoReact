@@ -1,16 +1,15 @@
-import axios from 'axios';
 import { AUTH_USER, AUTH_ERROR } from './types';
+
+import instance from '../../interceptors';
 
 const signup = (formProps, callback) => async (dispatch) => {
   try {
-    const response = await axios.post(
-      'http://localhost:8080/api/signup',
-      formProps,
-    );
+    const response = await instance.post('/auth/signup', formProps);
     console.log(response);
     const token = response.data;
 
     dispatch({ type: AUTH_USER, payload: token });
+
     window.localStorage.setItem('token', JSON.stringify(token));
     callback();
   } catch (error) {
@@ -21,15 +20,13 @@ const signup = (formProps, callback) => async (dispatch) => {
 
 const signin = (formProps, callback) => async (dispatch) => {
   try {
-    const response = await axios.post(
-      'http://localhost:8080/api/login',
-      formProps,
-    );
-
+    const response = await instance.post('/auth/login', formProps);
+    console.log(response);
     const token = response.data;
 
     dispatch({ type: AUTH_USER, payload: token });
-    window.localStorage.setItem('token', token);
+
+    window.localStorage.setItem('token', JSON.stringify(token));
     callback();
   } catch (e) {
     dispatch({ type: AUTH_ERROR, payload: 'Invalid login credentials' });

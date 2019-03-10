@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import reduxThunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 
 import App from './components/App.jsx';
 import Home from './components/Home.jsx';
@@ -19,7 +19,7 @@ const store = createStore(
   {
     auth: { authenticated: window.localStorage.getItem('token') },
   },
-  composeEnhancers(applyMiddleware(reduxThunk)),
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
 

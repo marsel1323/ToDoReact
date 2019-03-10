@@ -1,12 +1,11 @@
 import React from 'react';
 
-import ToDoList from './ToDo/ToDoList';
+import ToDoApp from './ToDo/ToDoApp';
 
 
 const Home = () => (
   <div>
-		Home
-    <ToDoList />
+    <ToDoApp />
   </div>
 );
 
