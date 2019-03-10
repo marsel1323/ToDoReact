@@ -10,10 +10,6 @@ const create = credentials => async (dispatch, getState) => {
     const { data } = response;
 
     dispatch({ type: type.CREATE_TASK, payload: data });
-    
-    // const tasks = [...getState().task.tasks.push(data)];
-    // console.log(tasks);
-    // dispatch({ type: type.FETCH_TASKS, payload: tasks });
   } catch (error) {
     console.error(error);
     dispatch({ type: type.CREATE_TASK_ERROR, payload: 'Task wasn\'t created' });
@@ -32,7 +28,29 @@ const list = () => async (dispatch) => {
   }
 };
 
+const remove = (id) => async (dispatch) => {
+  try {
+    await instance.delete(`/task/${id}`);
+    
+    dispatch({ type: type.REMOVE_TASK, payload: {id} });
+  } catch (error) {
+    dispatch({ type: type.REMOVE_TASK_ERROR, payload: 'Task not found' });
+  }
+};
+
+const edit = ({id, title, status}) => async (dispatch) => {
+  try {
+    console.log({id, title, status});
+    const {data} = await instance.put(`/task/${id}`, {title, status});
+    dispatch({ type: type.UPDATE_TASK, payload: data });
+  } catch (error) {
+    dispatch({ type: type.UPDATE_TASK_ERROR, payload: 'Task not found' });
+  }
+};
+
 export {
   create,
   list,
+  remove,
+  edit,
 };

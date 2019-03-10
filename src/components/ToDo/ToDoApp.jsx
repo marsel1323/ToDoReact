@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import {reduxForm} from 'redux-form';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
+
 import * as actions from '../../actions/task';
+
+import Task from './Task';
 
 
 class ToDoApp extends Component {
-	state = {
-		title: '',
-	};
+	state = {title: '',};
 	
 	async componentDidMount() {
 		await this.props.list();
@@ -16,19 +17,20 @@ class ToDoApp extends Component {
 	
 	handleClick = () => {
 		this.props.create(this.state);
+		this.setState({title: ''})
 	};
 	
 	inputChangeHandle = (e) => {
-		this.setState({
-			title: e.target.value
-		})
+		this.setState({title: e.target.value})
 	};
 	
 	renderList() {
 		if (this.props.tasks) {
 			return (
-				this.props.tasks.map((task, index) => {
-					return (<p key={index}>{task.title}</p>)
+				this.props.tasks.map((task) => {
+					return (
+						<Task task={task} key={task.id}/>
+					)
 				})
 			)
 		}
@@ -37,14 +39,30 @@ class ToDoApp extends Component {
 	
 	render() {
 		return (
-			<div className="todoapp-container">
-				<div className="ui action input">
-					<input type="text" placeholder="Input your task" onChange={this.inputChangeHandle}/>
-					<button className="ui button" onClick={this.handleClick}>Add</button>
+			<div className="ui eight column grid">
+				<div className="row">
+					<div className="eight wide column">
+						<div className="ui action input">
+							<input
+								type="text"
+								placeholder="Input your task"
+								onChange={this.inputChangeHandle}
+								value={this.state.title}/>
+							<button
+								className="ui button"
+								onClick={this.handleClick}>
+								Add
+							</button>
+						</div>
+					</div>
 				</div>
 				
-				<div className="todo-list">
-					{this.renderList()}
+				<div className="row">
+					<div className="eight wide column">
+						<div className="ui middle aligned divided list">
+							{this.renderList()}
+						</div>
+					</div>
 				</div>
 			</div>
 		);

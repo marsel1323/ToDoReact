@@ -2,6 +2,7 @@ import React from 'react';
 
 import ToDoApp from './ToDo/ToDoApp';
 
+import requireAuth from './requireAuth';
 
 const Home = () => (
   <div>
@@ -9,4 +10,4 @@ const Home = () => (
   </div>
 );
 
-export default Home;
+export default requireAuth(Home);
