@@ -36,7 +36,16 @@ const signin = (formProps, callback) => async (dispatch) => {
   }
 };
 
+const signout = () => {
+  window.localStorage.removeItem('token');
+  return {
+    type: AUTH_USER,
+    payload: '',
+  };
+};
+
 export {
   signup,
   signin,
+  signout,
 };
